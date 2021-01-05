@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};var dom,locate,res;for(dom of document.getElementsByClassName("content-img"))r.urls.push(dom.src);return r.title="eromanga-mainichi-",r.title+=(""==(res=(locate=location.href.split("/"))[locate.length-1].replace(/%/g,""))&&(res=locate[locate.length-2].replace(/%/g,"")),res),r}
