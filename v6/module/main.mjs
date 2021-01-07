@@ -1,21 +1,21 @@
 // saveDojin.main //
 
-const siteList = [
-  // {site:'',file:''},
+const siteList = {
+  // 'domain' : 'file'
 
   // version 6.0.0 (alpha)
-  {site:'eromanga-yoru',file:'yoru'},
-  {site:'dd-smart',file:'dojinsmart'},
-  {site:'buhidoh',file:'buhidoh'},
-  {site:'eromanga-school',file:'eromangaSchool'},
-  {site:'eromanag-ace',file:'eromangaAce'},
-  {site:'eromanga-mainichi',file:'eromangaMainichi'},
-  {site:'ero-manga-kingdom',file:'eromangaKingdom'},
-  {site:'kairakudoujin',file:'kairakudojin'},
-  {site:'eromanga-milf',file:'eromangaMilf'},
-  {site:'hentai-books',file:'hentaiBooks'},
-  {site:'erocool',file:'erocool'}
-];
+  'eromanga-yoru' : 'yoru',
+  'dd-smart' : 'dojinsmart',
+  'buhidoh' : 'buhidoh',
+  'eromanga-school' : 'eromangaSchool',
+  'eromanag-ace' : 'eromangaAce',
+  'eromanga-mainichi' : 'eromangaMainichi',
+  'ero-manga-kingdom' : 'eromangaKingdom',
+  'kairakudoujin' : 'kairakudojin',
+  'eromanga-milf' : 'eromangaMilf',
+  'hentai-books' : 'hentaiBooks',
+  'erocool' : 'erocool'
+};
 const version = 'version 6.0.0 (alpha)';
 const jsdelivr = 'https://cdn.jsdelivr.net/gh/riddle-laum/savedojin@master/v6/module.min/';
 
@@ -33,17 +33,12 @@ export async function main(){
   console.log('website: ' + website);
 
   // find new script and load it
-  for(let site of [...siteList, void 0]){
-    if(site === void 0) console.warn(website + ' is not supported by saveDOJIN ' + version);
-    else if(site.site == website){
-      // load script
-      const url = jsdelivr + website.file + '.min.mjs';
-      const {getImgList} = await import(url);
-      if(typeof(getImgList) !== 'function') throw new Error();
-      makedom(await getImgList());
-      return;
-    }
-  }
+  if(siteList[website]){
+    // supported
+    const {getImgList} = await import(jsdelivr + siteList[website] + '.min.mjs');
+    if(typeof(getImgList) !== 'function') throw new Error('getImgList is not function');
+    makedom(await getImgList());
+  } else console.warn(website + ' is not supported by saveDOJIN ' + version);
 }
 
 // makedom
