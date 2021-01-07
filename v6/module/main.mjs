@@ -17,6 +17,8 @@ const siteList = [
   {site:'erocool',file:'erocool'}
 ];
 const version = 'version 6.0.0 (alpha)';
+const jsdelivr = 'https://cdn.jsdelivr.net/gh/riddle-laum/savedojin@master/v6/module.min/';
+
 
 export async function main(){
   // show info
