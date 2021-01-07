@@ -9,7 +9,12 @@ const siteList = [
   {site:'buhidoh',file:'buhidoh'},
   {site:'eromanga-school',file:'eromangaSchool'},
   {site:'eromanag-ace',file:'eromangaAce'},
-  {site:'eromanga-mainichi',file:'eromangaMainichi'}
+  {site:'eromanga-mainichi',file:'eromangaMainichi'},
+  {site:'ero-manga-kingdom',file:'eromangaKingdom'},
+  {site:'kairakudoujin',file:'kairakudojin'},
+  {site:'eromanga-milf',file:'eromangaMilf'},
+  {site:'hentai-books',file:'hentaiBooks'},
+  {site:'erocool',file:'erocool'}
 ];
 const version = 'version 6.0.0 (alpha)';
 
@@ -20,7 +25,7 @@ export async function main(){
   // get website domain
   const website = (()=>{
     const [site,sub] = location.href.split('/')[2].split('.');
-    if(site === 'www') return sub;
+    if(site == 'www' || site == 'ja') return sub;
     return site;
   })();
   console.log('website: ' + website);
@@ -30,7 +35,7 @@ export async function main(){
     if(site === void 0) console.warn(website + ' is not supported by saveDOJIN ' + version);
     else if(site.site == website){
       // load script
-      const url = jsdelivr + website.file + '.min.js';
+      const url = jsdelivr + website.file + '.min.mjs';
       const {getImgList} = await import(url);
       if(typeof(getImgList) !== 'function') throw new Error();
       makedom(await getImgList());

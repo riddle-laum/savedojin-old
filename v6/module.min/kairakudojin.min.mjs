@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};for(let dom of document.getElementsByClassName("entry")[0].children)"IMG"==dom.tagName&&r.urls.push(dom.src);var locate=location.href.split(/\/|\.|-/g);return""==locate[locate.length-1]||"html"==locate[locate.length-1]?r.title="kairakudoujin-"+locate[locate.length-2]:r.title="kairakudoujin-"+locate[locate.length-1],r}
