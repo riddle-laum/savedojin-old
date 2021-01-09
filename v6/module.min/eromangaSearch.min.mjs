@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};for(var dom of(()=>{for(var temp of document.querySelector(".article").children)if("P"==temp.tagName)return temp.querySelectorAll("img")})())dom.src&&r.urls.push(dom.src);return r.title="eromanga-search-"+location.href.split(/\/|\./)[5],r}

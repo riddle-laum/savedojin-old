@@ -1,0 +1,1 @@
+export function getImgList({srcsetParse:srcsetParse}){const r={urls:[],title:""};for(let elm of document.getElementsByClassName("entry-content")[0].children)elm.srcset&&r.urls.push(elm.srcset);return r.urls=srcsetParse(r.urls),r.title="eromanga-collector-"+document.getElementsByTagName("article")[0].id.split("-")[1],r}

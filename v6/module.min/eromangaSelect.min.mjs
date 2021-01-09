@@ -1,0 +1,1 @@
+export function getImgList(){console.warn("----- operation check not performed -----");const r={urls:[],title:""};for(var dom of document.querySelector("section").children)dom.querySelector("img").src&&r.urls.push(dom.querySelector("img").src);return r.title="eromanga-selection-"+location.href.split("/")[4].replace(/%/g,""),r}

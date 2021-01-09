@@ -8,17 +8,37 @@ const siteList = {
   'dd-smart' : 'dojinsmart',
   'buhidoh' : 'buhidoh',
   'eromanga-school' : 'eromangaSchool',
-  'eromanag-ace' : 'eromangaAce',
+  'eromanga-ace' : 'eromangaAce',
   'eromanga-mainichi' : 'eromangaMainichi',
   'ero-manga-kingdom' : 'eromangaKingdom',
   'kairakudoujin' : 'kairakudojin',
   'eromanga-milf' : 'eromangaMilf',
   'hentai-books' : 'hentaiBooks',
-  'erocool' : 'erocool'
+  'erocool' : 'erocool',
+  'doujin-eromanga':'anilog',
+  'daretoku-eromanga':'daretoku',
+  'doujin-dolci':'dolci',
+  'dousyoko':'doshoko',
+  'ero-comic-hunter':'comicHunter'
 };
 const version = 'version 6.0.0 (alpha)';
 const jsdelivr = 'https://cdn.jsdelivr.net/gh/riddle-laum/savedojin@master/v6/module.min/';
-
+const assets = {};
+assets.srcsetParse = (srcsets)=>{
+  const urls = [];
+  for(var srcset of srcsets){
+    var max = {url:'',size:0};
+    for(var temp of srcset.split(', ')){
+      var [url, size] = temp.split(' ');
+      size = size.split('w')[0];
+      if(max.size < size){
+        max.url = url, max.size = +size;
+      }
+    }
+    urls.push(max.url);
+  }
+  return urls;
+};
 
 export async function main(){
   // show info
@@ -37,7 +57,7 @@ export async function main(){
     // supported
     const {getImgList} = await import(jsdelivr + siteList[website] + '.min.mjs');
     if(typeof(getImgList) !== 'function') throw new Error('getImgList is not function');
-    makedom(await getImgList());
+    makedom(await getImgList(assets));
   } else console.warn(website + ' is not supported by saveDOJIN ' + version);
 }
 

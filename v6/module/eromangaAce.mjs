@@ -17,14 +17,18 @@ async function _getImgList(parent){
   if(parent.getElementsByClassName('nextpage')[0] && parent.getElementsByClassName('nextpage')[0].getElementsByClassName('next')[0]){
     // next page exist
     let dom = document.createElement('html');
-    dom.innerHTML = await getNextPageDom();
+    dom.innerHTML = await getNextPageDom(parent);
     r.urls = [...r.urls, ...(await _getImgList(dom)).urls];
   }
   return r;
 }
 
-async function getNextPageDom(){
-  const locate = document.getElementsByClassName('nextpage')[0].children[0].href;
+async function getNextPageDom(parent){
+  var locate = parent.getElementsByClassName('nextpage')[0];
+  for(let temp of locate.children) if(temp.getElementsByClassName('next').length == 1){
+    locate = temp;
+    break;
+  }
   var dom;
   await new Promise((resolve, reject)=>{
     var xhr = new XMLHttpRequest();

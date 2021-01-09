@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};for(var dom of document.querySelectorAll("img"))dom.alt&&"QR"!=dom.alt&&"FC2 Analyzer"!=dom.alt&&dom.src&&r.urls.push(dom.src);return r.title="ero-kanmusu-"+location.href.split(/\.|\/|-/)[8],r}
