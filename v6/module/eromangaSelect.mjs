@@ -16,3 +16,4 @@ export function getImgList(){
 
 
 // https://eromanga-select.com/ >> no response 2021/01/09 18:20
+// https://eromanga-select.com/ >> no response 2021/01/14 23:47

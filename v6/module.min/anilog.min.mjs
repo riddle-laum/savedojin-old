@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};for(var dom of document.getElementsByClassName("content-img"))r.urls.push(dom.src);return r.title="anilog-"+location.href.split("=")[1],r}

@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};for(var dom of document.querySelectorAll(".kijibox img"))/wp-image-.+/.test(dom.className)&&dom.src&&r.urls.push(dom.src);return r.title="ero-comic-hunter-"+location.href.split("/")[3].split(".")[0],r}

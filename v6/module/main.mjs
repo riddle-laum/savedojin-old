@@ -4,22 +4,29 @@ const siteList = {
   // 'domain' : 'file'
 
   // version 6.0.0 (alpha)
-  'eromanga-yoru' : 'yoru',
-  'dd-smart' : 'dojinsmart',
-  'buhidoh' : 'buhidoh',
-  'eromanga-school' : 'eromangaSchool',
-  'eromanga-ace' : 'eromangaAce',
-  'eromanga-mainichi' : 'eromangaMainichi',
-  'ero-manga-kingdom' : 'eromangaKingdom',
-  'kairakudoujin' : 'kairakudojin',
-  'eromanga-milf' : 'eromangaMilf',
-  'hentai-books' : 'hentaiBooks',
-  'erocool' : 'erocool',
   'doujin-eromanga':'anilog',
+  'eromanga-collector':'buhidoh',
+  'eromanga-collector':'collector',
+  'ero-comic-hunter':'comicHunter',
   'daretoku-eromanga':'daretoku',
+  'dd-smart.jp':'dojinsmart',
   'doujin-dolci':'dolci',
   'dousyoko':'doshoko',
-  'ero-comic-hunter':'comicHunter'
+  'erocool':'erocool',
+  'eromanga-ace':'eromangaAce',
+  'eromangacafe':'eromangaCafe',
+  'ero-manga-kingdom':'eromangaKingdom',
+  'eromanga-mainichi':'eromangaMainichi',
+  'eromanga-milf':'eromangaMilf',
+  'eromanga-school':'eromangaSchool',
+  'eromanga-search':'eromangaSearch',
+  'eromanga-select':'eromangaSelect',
+  'hentai-books':'hentaiBooks',
+  'hime-book':'himebooj',
+  'kairakudoujin':'kairakudojin',
+  'kankoredoujin':'kancolleDojin',
+  'moeero-library':'moeero',
+  'eromanga-yoru':'yoru',
 };
 const version = 'version 6.0.0 (alpha)';
 const jsdelivr = 'https://cdn.jsdelivr.net/gh/riddle-laum/savedojin@master/v6/module.min/';

@@ -1,0 +1,1 @@
+export function getImgList(){const r={urls:[],title:""};var imgdom;for(var dom of imgdom=document.getElementsByClassName("entry_text")[0].children)"A"==dom.tagName&&urls.push(dom.href);if(!urls.length)return r}
