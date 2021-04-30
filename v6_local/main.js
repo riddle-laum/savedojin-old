@@ -2,7 +2,7 @@
 const savedojin = {};
 
 // ----- constant ----- //
-savedojin.version = 'v0.3.0 extends savedojinImportExportVersion6.0.0(alpha)';
+savedojin.version = 'v0.4.0 extends savedojinImportExportVersion6.0.0(alpha)';
 
 // ----- main ----- //
 savedojin.main = async ()=>{
