@@ -1,0 +1,82 @@
+savedojin local version (bookmarklet)
+
+v0.0.0(alpha)/"saveDojinUseimport/export"6.0.0(alpha)
+
+v0.0.0
+- support
+  - buhidoh.net
+  - daretoku-eromanga.info
+  - dd-smart.net
+  - doujin-dolci.com
+  - doujin-eromanga.com
+  - dousyoko.net
+  - ero-comic-hunter.net
+  - ero-manga-kingdom.com
+  - erocool.com
+  - eromanga-ace
+  - eromanga-collector.com
+  - eromanga-mainichi.com
+  - eromanga-milf.com
+  - eromanga-school.com
+  - eromanga-search.com
+  - eromanga-select.com
+  - eromanga-yoru.com
+  - eromangacafe.com
+  - hentai-books.com
+  - hime-book.net
+  - kairakudoujin.net
+  - kankoredoujin.blog.fc2.com
+  - moeero-library.com
+
+v0.1.0
+- support
+  - ero-mangalife.com
+  - ero-mangasokuhou.com
+  - erodoujinshi-world.com
+  - eromanga-time.com
+  - eromanga-yasan.com
+  - eromangaosa-mu.com
+  - nukemanga.com
+  - oreno-erohon.com
+  - xn--gmq92kd2rm1kx34a.com
+
+v0.1.1
+- bug fix
+  - eromanga-mainichi.com
+    物によってはurlListが正しく生成されないバグを修正
+  - eromanga-ace.com
+    次ページのurlが正しく取得できていないバグを修正
+  - eromanga-kingdom.com
+    物によってはurlListが正しく生成されないバグを修正
+  - moeero-library.com
+    物によってはurlListが正しく生成されないバグを修正
+    ただよくわからないiframeがhtmlに残るけど見た目上は何の問題もないのでヨシ
+  - ero-mangasokuhou.com
+    物によってはurlListが正しく生成されないバグを修正
+  - mangalear.blog
+    url生成修正
+
+v0.2.0
+- support
+  - eromanga-celeb.com
+  - eromanga-jkschool.com
+  - doujincafe.com
+  - eroproject.com
+  - nijioma.blog
+  - eromanga-kong.com
+  - doujin-night.com
+  - erodoujinjohoukan
+
+v0.3.0
+- support
+  - doujinhibiki.net
+  - eromanga-daisuki.com
+  - hmangatomoe.net
+  - mangalear.blog
+  - nhentai.net
+
+v0.4.0
+- add assets
+  - sleep(delay)
+- support
+  - pixiv.net
