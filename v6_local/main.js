@@ -2,7 +2,7 @@
 const savedojin = {};
 
 // ----- constant ----- //
-savedojin.version = 'v0.4.0 extends savedojinImportExportVersion6.0.0(alpha)';
+savedojin.version = 'v0.6.0 extends savedojinImportExportVersion6.0.0(alpha)';
 
 // ----- main ----- //
 savedojin.main = async ()=>{
@@ -125,6 +125,13 @@ savedojin.func._getdomfromurl = async(url)=>{
   return dom;
 };
 // dd-smart functions end
+savedojin.modules['dojinwatch'] = ()=>{
+  const r = {urls:[],title:''};
+  for(var dom of document.querySelectorAll('.article-body > p > a'))
+    r.urls.push(dom.href);
+  r.title = 'dojinwatch-' + location.href.substr(0, location.href.length - 1).split('/').pop();
+  return r;
+};
 savedojin.modules['doujin-dolci'] = ()=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('.content a')) r.urls.push(dom.href);
@@ -392,6 +399,21 @@ savedojin.modules['eromangacafe'] = ({srcsetParse})=>{
   r.title = 'eromanga-cafe-' + location.href.split(/\.|\//)[4];
   return r;
 };
+savedojin.modules['eromangafucks'] = ({srcsetParse})=>{
+  const r = {urls:[],title:''};
+  for(var dom of document.querySelectorAll('.entry-content > p > img'))
+    if(dom.srcset) r.urls.push(dom.srcset);
+  r.urls = srcsetParse(r.urls);
+  r.title = 'eromangafucks-' + location.href.split('/').pop();
+  return r;
+};
+savedojin.modules['eromanganomori'] = ()=>{
+  const r = {urls:[],title:''};
+  let temp;
+  for(var dom of document.querySelectorAll('.article-body > span > a')) r.urls.push(dom.href);
+  r.title = 'eromanganomori-' + location.href.split('/').pop();
+  return r;
+};
 savedojin.modules['eromangaosa-mu'] = ()=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('.main_article > a')) r.urls.push(dom.href);
@@ -432,6 +454,15 @@ savedojin.modules['hmangamatome'] = ()=>{
   return r;
 };
 
+savedojin.modules['itaeromanga'] = ({srcsetParse})=>{
+  const r = {urls:[],title:''};
+  for(var dom of document.querySelectorAll('.entry-content > img'))
+    if(dom.srcset) r.urls.push(dom.srcset);
+  r.urls = srcsetParse(r.urls);
+  r.title = 'itaeromanga-' + location.href.split('/').pop();
+  return r;
+};
+
 savedojin.modules['kairakudoujin'] = ()=>{
   const r = {urls:[],title:''};
   for(let dom of document.querySelectorAll('.entry > img')) r.urls.push(dom.src);
@@ -449,6 +480,13 @@ savedojin.modules['kankoredoujin'] = ()=>{
   return r;
 };
 
+savedojin.modules['manga100ka'] = ()=>{
+  const r = {urls:[],title:''};
+  for(var dom of document.querySelectorAll('.item_file > a'))
+    r.urls.push(dom.href);
+  r.title = 'manga100ka-' + location.href.split('=')[1];
+  return r;
+};
 savedojin.modules['mangalear'] = ({srcsetParse})=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('#the-content a > img')) r.urls.push(dom.srcset);
@@ -518,6 +556,41 @@ savedojin.modules['nukemanga'] = ({srcsetParse})=>{
   r.title = 'nukeman-' + location.href.split('/')[3];
   return r;
 };
+savedojin.modules['nyahentai'] = async ()=>{
+  const r = {urls:[],title:''};
+  let rescnt = 0;
+  await new Promise(async(resolve, reject)=>{
+    for(var dom of document.querySelectorAll('.gallerythumb'))
+      (async()=>{
+        rescnt++;
+        r.urls.push(await savedojin.func._nyahentai_getPageImg(dom.href));
+        rescnt--;
+        if(rescnt == 0) resolve();
+      })();
+  });
+  // for(var dom of document.querySelectorAll('.gallerythumb'))
+  //   r.urls.push(await savedojin.func._nyahentai_getPageImg(dom.href));
+  r.title = 'nyahentai-' + location.href.substr(0,location.href.length - 1).split('/').pop();
+  return r;
+};
+// ----- nyahentai functions ----- //
+savedojin.func._nyahentai_getPageImg = async (url)=>{
+  let html = document.createElement('html');
+  await new Promise((resolve, reject)=>{
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = ()=>{
+      html.innerHTML = xhr.responseText;
+      resolve();
+    };
+    xhr.onerror = ()=>{
+      reject();
+    };
+    xhr.send();
+  });
+  return html.querySelector('.current-img').src;
+};
+// ----- nyahentai functions end ----- //
 
 savedojin.modules['oreno-erohon'] = ()=>{
   const r = {urls:[],title:''};
