@@ -2,7 +2,7 @@
 const savedojin = {};
 
 // ----- constant ----- //
-savedojin.version = 'v0.6.0 extends savedojinImportExportVersion6.0.0(alpha)';
+savedojin.version = 'v0.6.1 extends savedojinImportExportVersion6.0.0(alpha)';
 
 // ----- main ----- //
 savedojin.main = async ()=>{
@@ -568,8 +568,6 @@ savedojin.modules['nyahentai'] = async ()=>{
         if(rescnt == 0) resolve();
       })();
   });
-  // for(var dom of document.querySelectorAll('.gallerythumb'))
-  //   r.urls.push(await savedojin.func._nyahentai_getPageImg(dom.href));
   r.title = 'nyahentai-' + location.href.substr(0,location.href.length - 1).split('/').pop();
   return r;
 };
@@ -601,13 +599,21 @@ savedojin.modules['oreno-erohon'] = ()=>{
 
 savedojin.modules['pixiv'] = async ({sleep})=>{
   const r = {urls:[],title:''};
-  let temp, extend = document.querySelector('div.sc-1qi8blb-1.eixbOP > div > a');
+  let temp, extend = null;
+  // search extend
+  for(var dom of document.querySelectorAll('button'))
+    if(dom.querySelector('div:nth-child(2)') && dom.querySelector('div:nth-child(2)').innerText == 'すべて見る'){
+      extend = dom;
+      break;
+    }
+  
+  // open extend
   if(extend !== null){
     // some images in this page
     extend.click();
     await sleep(1000); // 1s(1000ms) for now, adjust later
   }
-  for(let dom of document.querySelectorAll('.gtm-expand-full-size-illust'))
+  for(var dom of document.querySelectorAll('.gtm-expand-full-size-illust'))
     r.urls.push(dom.href);
   r.title = 'pixiv-' + (temp = location.href.split('/'))[temp.length - 1];
   return r;
