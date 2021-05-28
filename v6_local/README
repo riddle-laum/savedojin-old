@@ -96,3 +96,7 @@ v0.6.0
 - support
   - dojinwatch.com
   - manga100ka.jp
+
+v0.6.1
+- bug fix
+  - pixiv.netにて複数の画像がある場合に展開されない不具合に対応
