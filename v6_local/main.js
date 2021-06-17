@@ -2,7 +2,7 @@
 const savedojin = {};
 
 // ----- constant ----- //
-savedojin.version = 'v0.6.1 extends savedojinImportExportVersion6.0.0(alpha)';
+savedojin.version = 'v0.7.0 extends savedojinImportExportVersion6.0.0(alpha)';
 
 // ----- main ----- //
 savedojin.main = async ()=>{
@@ -293,8 +293,14 @@ savedojin.modules['eromanga-celeb'] = ()=>{
 };
 savedojin.modules['eromanga-collector'] = ({srcsetParse})=>{
   const r = {urls:[],title:''};
-  for(var dom of document.querySelectorAll('.entry-content > img')) if(dom.srcset) r.urls.push(dom.srcset);
-  r.urls = srcsetParse(r.urls);
+  var domlist = document.querySelectorAll('.entry-content > img');
+  if(!domlist.length)
+    domlist = document.querySelectorAll('.entry-content > p > img');
+  for(var dom of domlist) if(dom.srcset) r.urls.push(dom.srcset);
+  if(r.urls.length)
+    r.urls = srcsetParse(r.urls);
+  else
+    // さぁどうしたもんか
   r.title = 'eromanga-collector-' + document.getElementsByTagName('article')[0].id.split('-')[1];
   return r;
 };
@@ -368,13 +374,49 @@ savedojin.modules['eromanga-select'] = ()=>{
   r.title = 'eromanga-selection-' + location.href.split('/')[4].replace(/%/g,'');
   return r;
 };
-savedojin.modules['eromanga-time'] = ({srcsetParse})=>{
-  const r = {urls:[],title:''};
-  for(var dom of document.querySelectorAll('.entry-content img')) if(dom.srcset) r.urls.push(dom.srcset);
-  r.urls = srcsetParse(r.urls);
-  r.title = 'eromanga-time-' + location.href.split('/')[4];
+savedojin.modules['eromanga-time'] = async ({srcsetParse})=>{
+  const r = savedojin.func._getImgUrl(srcsetParse, document);
+  r.title = 'eromanga-time-' + r.title;
+  for(var url of savedojin.func._getSeriesUrl()){
+    var {urls} = savedojin.func._getImgUrl(srcsetParse, await savedojin.func._getPageDom(url));
+    r.urls.push(...urls);
+    r.title += '-' + url.split('/')[4];;
+  }
   return r;
 };
+// eromanta-time functions
+savedojin.func._getImgUrl = (srcsetParse, parent)=>{
+  const r = {urls:[],title:''};
+  for(var dom of parent.querySelectorAll('.entry-content img'))
+    if(dom.srcset) r.urls.push(dom.srcset);
+  r.urls = srcsetParse(r.urls);
+  r.title = location.href.split('/')[4];
+  return r;
+};
+savedojin.func._getSeriesUrl = ()=>{
+  let urllist = [];
+  for(let dom of document.querySelectorAll('.easy-series-toc a'))
+    if(dom.href.match(/\/content\//) && !urllist.includes(dom.href))
+      urllist.push(dom.href);
+  return urllist;
+};
+savedojin.func._getPageDom = async (url)=>{
+  let dom = document.createElement('html');
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  await new Promise((resolve, reject)=>{
+    xhr.onload = ()=>{
+      dom.innerHTML = xhr.responseText;
+      resolve();
+    };
+    xhr.onerror = ()=>{
+      reject();
+    };
+    xhr.send();
+  });
+  return dom;
+};
+// eromanga-time functions end
 savedojin.modules['eromanga-yasan'] = ({srcsetParse})=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('.entry-content img'))
@@ -394,8 +436,8 @@ savedojin.modules['eromangacafe'] = ({srcsetParse})=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('.kijibox p img'))
     if(dom.srcset) r.urls.push(dom.srcset);
-  r.urls = srcsetParse(r.urls);
   if(!r.urls.length) for(var dom of document.querySelectorAll('.kijibox p > a')) r.urls.push(dom.href);
+  else r.urls = srcsetParse(r.urls);
   r.title = 'eromanga-cafe-' + location.href.split(/\.|\//)[4];
   return r;
 };
