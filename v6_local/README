@@ -107,3 +107,9 @@ v0.7.0
 - bug fix
   - eromanga-collector.comの一部のページでimgdomが正しく取得できていない問題を修正
   - eromangacafe.comの一部のページでsrcsetParserが正しく動作していない問題を修正
+
+v0.8.0
+- enhancement
+  - eromanga-yoru.com シリーズ一気表示機能の追加
+  - eromanga-collector.dom シリーズ一気表示機能の追加
+  

@@ -2,7 +2,7 @@
 const savedojin = {};
 
 // ----- constant ----- //
-savedojin.version = 'v0.7.0 extends savedojinImportExportVersion6.0.0(alpha)';
+savedojin.version = 'v0.8.0 extends savedojinImportExportVersion6.0.0(alpha)';
 
 // ----- main ----- //
 savedojin.main = async ()=>{
@@ -291,19 +291,53 @@ savedojin.modules['eromanga-celeb'] = ()=>{
   r.title = 'eromanga-celeb-' + temp01.replace(/%/g,'') + '-' + temp02.replace(/%/g,'');
   return r;
 };
-savedojin.modules['eromanga-collector'] = ({srcsetParse})=>{
-  const r = {urls:[],title:''};
-  var domlist = document.querySelectorAll('.entry-content > img');
-  if(!domlist.length)
-    domlist = document.querySelectorAll('.entry-content > p > img');
-  for(var dom of domlist) if(dom.srcset) r.urls.push(dom.srcset);
+savedojin.modules['eromanga-collector'] = async ({srcsetParse})=>{
+  const r = {urls:[],title:['eromanga-collector']};
+  for(let url of savedojin.func._col_getSeries()){
+    let dom = document;
+    if(url != location.href) dom = await savedojin.func._col_getDomFromUrl(url);
+    const result = savedojin.func._col_getImageUrlList(dom)
+    r.urls.push(...result.urls);
+    r.title.push(result.title);
+  }
   if(r.urls.length)
     r.urls = srcsetParse(r.urls);
-  else
-    // さぁどうしたもんか
-  r.title = 'eromanga-collector-' + document.getElementsByTagName('article')[0].id.split('-')[1];
+  r.title = r.title.join('-');
   return r;
 };
+// eromanga-collector functions
+savedojin.func._col_getDomFromUrl = async (url)=>{
+  const dom = document.createElement('html');
+  await new Promise(resolve=>{
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = ()=>{
+      dom.innerHTML = xhr.responseText;
+      resolve();
+    };
+    xhr.onerror = err=>console.log(err);
+    xhr.send();
+  });
+  return dom;
+};
+savedojin.func._col_getImageUrlList = (parent)=>{
+  const r = {urls:[],title:''};
+  var domlist = parent.querySelectorAll('.entry-content > img');
+  if(!domlist.length)
+    domlist = parent.querySelectorAll('.entry-content > p > img');
+  for(var dom of domlist) if(dom.srcset) r.urls.push(dom.srcset);
+  r.title = parent.getElementsByTagName('article')[0].id.split('-')[1];
+  return r;
+};
+savedojin.func._col_getSeries = ()=>{
+  if(!document.querySelector('.easy-series-toc')) return [location.href];
+  const list = [];
+  for(let dom of document.querySelector('.easy-series-toc').querySelectorAll('tbody td'))
+    if(dom.querySelector('a') && !dom.querySelector('a').href.match(/%E9%95%B7%E7%B7%A8|%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA/i)) list.push(dom.querySelector('a').href);
+    else if(dom.querySelector('span') && dom.querySelector('span').innerHTML.match(/(n|N)ow/)) list.push(location.href);
+  return list;
+};
+// end eromanga-collector functions
 savedojin.modules['eromanga-daisuki'] = ({srcsetParse})=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('.entry-content img'))
@@ -426,12 +460,53 @@ savedojin.modules['eromanga-yasan'] = ({srcsetParse})=>{
   r.title = 'eromanga-yasan-' + location.href.split('/')[3];
   return r;
 };
-savedojin.modules['eromanga-yoru'] = ()=>{
-  const r = {urls:[],title:''};
-  for(var dom of document.querySelectorAll('.entry-content img')) r.urls.push(dom.src);
-  r.title = 'eromanga-yoru-' + location.href.split('/')[4];
+savedojin.modules['eromanga-yoru'] = async ()=>{
+  const r = {urls:[],title:[]};
+  const series = savedojin.func._yoru_getSeries();
+  r.title.push('eromanga-yoru');
+  for(let url of series){
+    r.title.push(url.split('/')[4]);
+    let parent;
+    if(url == location.href) parent = document;
+    else parent = await savedojin.func._yoru_getDom(url);
+    r.urls.push(...savedojin.func._yoru_getImgList(parent));
+  }
+  r.title = r.title.join('-');
   return r;
 };
+// yoru fuunctions
+savedojin.func._yoru_getSeries = ()=>{
+  const series = [];
+  if(!document.querySelector('.box_rensaku') && !document.querySelector('.easy-series-toc')) return [location.href];
+  if(document.querySelector('.box_rensaku'))
+    for(var dom of document.querySelector('.box_rensaku').querySelectorAll('a')) series.push(dom.href);
+  else{
+    series.push(location.href);
+    for(var dom of document.querySelector('.easy-series-toc').querySelectorAll('a')) series.push(dom.href);
+  }
+  return series;
+};
+savedojin.func._yoru_getDom = async (url)=>{
+  if(url == location.href) return document;
+  let xhr = new XMLHttpRequest();
+  let dom = document.createElement('html');
+  await new Promise((resolve, reject)=>{
+    xhr.open('GET', url);
+    xhr.onload = ()=>{
+      dom.innerHTML = xhr.responseText;
+      resolve();
+    };
+    xhr.onerror = ()=>reject();
+    xhr.send();
+  });
+  return dom;
+};
+savedojin.func._yoru_getImgList = (parent)=>{
+  const urls = [];
+  for(var dom of parent.querySelectorAll('.entry-content img')) urls.push(dom.src);
+  return urls;
+};
+// end yoru functions
 savedojin.modules['eromangacafe'] = ({srcsetParse})=>{
   const r = {urls:[],title:''};
   for(var dom of document.querySelectorAll('.kijibox p img'))
